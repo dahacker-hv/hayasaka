@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
@@ -31,6 +33,7 @@ class MainActivity : ComponentActivity() {
 private fun HayasakaApp(context: Context) {
     var url by remember { mutableStateOf("") }
     var files by remember { mutableStateOf(listAudio(context)) }
+    var pendingDelete by remember { mutableStateOf<File?>(null) }
     MaterialTheme(colorScheme = darkColorScheme()) {
         Scaffold { padding ->
             Column(Modifier.fillMaxSize().padding(padding).padding(20.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
@@ -45,10 +48,15 @@ private fun HayasakaApp(context: Context) {
                 if (files.isEmpty()) Text("No tracks yet. Download a direct audio-file URL to get started.")
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(files, key = { it.absolutePath }) { file ->
-                        Card(Modifier.fillMaxWidth().clickable { playFile(context, file) }) {
-                            Column(Modifier.padding(14.dp)) {
-                                Text(file.nameWithoutExtension, style = MaterialTheme.typography.titleMedium)
-                                Text("Tap to play", style = MaterialTheme.typography.bodySmall)
+                        Card(Modifier.fillMaxWidth()) {
+                            Row(Modifier.fillMaxWidth().padding(start = 14.dp), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                                Column(Modifier.weight(1f).clickable { playFile(context, file) }.padding(vertical = 14.dp)) {
+                                    Text(file.nameWithoutExtension, style = MaterialTheme.typography.titleMedium)
+                                    Text("Tap to play", style = MaterialTheme.typography.bodySmall)
+                                }
+                                IconButton(onClick = { pendingDelete = file }) {
+                                    Icon(Icons.Default.Delete, contentDescription = "Delete downloaded track")
+                                }
                             }
                         }
                     }
