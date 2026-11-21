@@ -1,8 +1,10 @@
 package com.cisco.wx2.android
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
@@ -26,7 +28,7 @@ import java.util.concurrent.Executors
 
 data class SaavnSong(val id:String,val name:String,val artist:String,val album:String,val duration:String,val stream:String,val image:String,val download:String)
 class HayasakaActivity:ComponentActivity(){
- override fun onCreate(savedInstanceState:Bundle?){super.onCreate(savedInstanceState);setContent{MaterialTheme(colorScheme=darkColorScheme()){MusicScreen(this)}}}
+ override fun onCreate(savedInstanceState:Bundle?){super.onCreate(savedInstanceState);if(Build.VERSION.SDK_INT>=33&&checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED)requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS),1001);setContent{MaterialTheme(colorScheme=darkColorScheme()){MusicScreen(this)}}}
 }
 private fun storeDir(c:Context)=File(c.filesDir,"offline_music").apply{mkdirs()}
 private fun clean(s:String)=s.replace(Regex("[^a-zA-Z0-9._ -]"),"_").trim().take(80).ifBlank{"track"}
@@ -96,4 +98,4 @@ private object Offline{
  Handler(Looper.getMainLooper()).post{done(true,"Saved for offline playback")}
  }catch(e:Exception){audioFile(context,song).delete();Handler(Looper.getMainLooper()).post{done(false,"Download failed: ${e.message}")}}}}
 }
-private fun startPlayback(context:Context,url:String,song:SaavnSong){val i=Intent(context,PlaybackService::class.java).setAction(PlaybackService.ACTION_PLAY).putExtra(PlaybackService.EXTRA_PATH,url).putExtra(PlaybackService.EXTRA_TITLE,song.name).putExtra(PlaybackService.EXTRA_ARTIST,song.artist).putExtra(PlaybackService.EXTRA_ALBUM,song.album).putExtra(PlaybackService.EXTRA_ART,song.image);ContextCompat.startForegroundService(context,i)}
+private fun startPlayback(context:Context,url:String,song:SaavnSong){val artFile=File(storeDir(context),"${clean(song.name)}_${song.id}.jpg");val artwork=if(url==audioFile(context,song).absolutePath&&artFile.exists())artFile.toURI().toString()else song.image;val i=Intent(context,PlaybackService::class.java).setAction(PlaybackService.ACTION_PLAY).putExtra(PlaybackService.EXTRA_PATH,url).putExtra(PlaybackService.EXTRA_TITLE,song.name).putExtra(PlaybackService.EXTRA_ARTIST,song.artist).putExtra(PlaybackService.EXTRA_ALBUM,song.album).putExtra(PlaybackService.EXTRA_ART,artwork);ContextCompat.startForegroundService(context,i)}
