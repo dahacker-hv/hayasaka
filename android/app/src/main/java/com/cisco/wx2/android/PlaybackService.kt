@@ -25,7 +25,7 @@ class PlaybackService:MediaSessionService(){
     val artist=intent.getStringExtra(EXTRA_ARTIST).orEmpty()
     val album=intent.getStringExtra(EXTRA_ALBUM).orEmpty()
     val artwork=intent.getStringExtra(EXTRA_ART).orEmpty()
-    val metadata=MediaMetadata.Builder().setTitle(title).setArtist(artist).setAlbumTitle(album).apply{if(artwork.isNotBlank())setArtworkUri(Uri.parse(artwork)}.build()
+    val metadata=MediaMetadata.Builder().setTitle(title).setArtist(artist).setAlbumTitle(album).apply{if(artwork.isNotBlank())setArtworkUri(Uri.parse(artwork))}.build()
     val item=MediaItem.Builder().setUri(source).setMediaMetadata(metadata).build()
     player?.setMediaItem(item);player?.prepare();player?.play()
    }
