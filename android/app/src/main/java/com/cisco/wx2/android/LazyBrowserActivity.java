@@ -289,7 +289,7 @@ public class LazyBrowserActivity extends Activity {
     private void showBrowserMenu(View anchor) {
         PopupMenu popup = new PopupMenu(this, anchor);
         popup.getMenu().add("Music Player");
-        popup.getMenu().add("Go to Hayasaka");
+        popup.getMenu().add("Hayasaka");
         popup.getMenu().add("Home");
         popup.getMenu().add("Reload");
         popup.getMenu().add("Back");
@@ -302,7 +302,7 @@ public class LazyBrowserActivity extends Activity {
             String title = item.getTitle().toString();
             switch (title) {
                 case "Music Player": openMusic(); return true;
-                case "Go to Hayasaka": startActivity(new android.content.Intent(this, HayasakaActivity.class)); return true;
+                case "Hayasaka": startActivity(new android.content.Intent(this, HayasakaActivity.class)); return true;
                 case "Home": musicOpen = false; web.loadUrl("https://www.google.com"); return true;
                 case "Reload": if (!musicOpen) web.reload(); return true;
                 case "Back": onBackPressed(); return true;
