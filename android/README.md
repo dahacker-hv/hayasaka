@@ -1,15 +1,30 @@
-# Hayasaka Android (starter)
+# Hayasaka Android
 
-Native Android app scaffold for package `com.android.wx2.android`.
+Native Android music app scaffold for package `com.android.wx2.android`.
 
-## Included
-- Kotlin + Jetpack Compose starter UI
-- HTTPS/HTTP URL entry for audio downloads
-- Android DownloadManager downloads into Music/Hayasaka
-- System download notifications
+## Features (v1.0.1 work in progress)
+- Kotlin + Jetpack Compose, Material 3 UI
+- Download direct HTTPS audio-file URLs using Android DownloadManager
+- Offline library in app-private storage, listing and playback of downloaded tracks
+- Delete downloaded tracks with an explicit confirmation dialog
+- Media3 ExoPlayer playback service and MediaSession for system playback integration
 
 ## Build
-Open the `android/` folder in Android Studio, let Gradle sync, then run on an Android device.
+Open the `android/` folder in Android Studio and run `assembleDebug`, or download the debug APK from the Actions run's artifacts once CI succeeds.
 
-## Current limitations
-This is a starter build, not the finished player. It does not yet implement in-app offline library browsing/playback, Media3 background playback, MediaSession lockscreen/Bluetooth controls, playlists, or metadata tagging. Download sources must permit direct audio-file downloads; this does not bypass DRM or source restrictions.
+## Limitations
+This remains an early native app: no remote catalog search or streaming, playlists, lyrics, metadata editing, queue/shuffle/repeat UI, equalizer, sleep timer, or app-level download progress/retry yet. Direct-download sources must provide audio files and permit downloads; the app does not bypass DRM or source restrictions.
+
+## Feature research / roadmap
+Prioritized from current Android music-player patterns:
+1. Playback queue, previous/next, seekbar, shuffle and repeat.
+2. Media notification/lockscreen controls with robust service lifecycle.
+3. Browse device music using MediaStore (instead of only app-managed downloads).
+4. Track metadata and album artwork, richer library views.
+5. Playlists and favorites, persistent storage (Room).
+6. Lyrics, sleep timer and equalizer.
+7. Download progress, retry/cancel, collision-safe filenames.
+8. Backup/export and settings, then tests and signed release distribution.
+
+## Release notes
+See [CHANGELOG.md](CHANGELOG.md). Version 1.0.1 is being prepared; CI must pass before a release is tagged.
