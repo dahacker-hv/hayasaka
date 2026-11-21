@@ -34,13 +34,13 @@ private fun audioFile(c:Context,s:SaavnSong)=File(storeDir(c),"${clean(s.name)}_
 private fun metaFile(c:Context,s:SaavnSong)=File(storeDir(c),"${clean(s.name)}_${s.id}.json")
 private fun toJson(s:SaavnSong)=JSONObject().put("id",s.id).put("name",s.name).put("artist",s.artist).put("album",s.album).put("duration",s.duration).put("stream",s.stream).put("image",s.image).put("download",s.download)
 private fun fromJson(o:JSONObject)=SaavnSong(o.optString("id"),o.optString("name"),o.optString("artist"),o.optString("album"),o.optString("duration"),o.optString("stream"),o.optString("image"),o.optString("download"))
-private fun offlineList(c:Context):List<SaavnSong>=(storeDir(c).listFiles()?.filter{it.extension=="json"}?.mapNotNull{try{fromJson(JSONObject(it.readText()))}catch(_:Exception){null}}?:emptyList()).sortedBy{it.name}
+private fun offlineList(c:Context):List<SaavnSong> = (storeDir(c).listFiles()?.filter{it.extension=="json"}?.mapNotNull{try{fromJson(JSONObject(it.readText()))}catch(_:Exception){null}} ?: emptyList()).sortedBy{it.name}
 @Composable private fun MusicScreen(context:Context){
  var query by remember{mutableStateOf("")};var results by remember{mutableStateOf<List<SaavnSong>>(emptyList())};var busy by remember{mutableStateOf(false)}
  var status by remember{mutableStateOf("Search songs on Saavn")};var playing by remember{mutableStateOf("")};var library by remember{mutableStateOf(offlineList(context))};var showLibrary by remember{mutableStateOf(false)};var downloadId by remember{mutableStateOf<String?>(null)}
  Column(Modifier.fillMaxSize().padding(16.dp),verticalArrangement=Arrangement.spacedBy(10.dp)){
  Text("Brilliant Pala Classes",style=MaterialTheme.typography.headlineSmall);Text("Hayasaka Music • Saavn")
- Row(horizontalArrangement=Arrangement.spacedBy(8.dp)){Button(onClick={showLibrary=false}){Text("Search")};Button(onClick={library=offlineList(context);showLibrary=true}){Text("Offline library (${library.size})"}}
+ Row(horizontalArrangement=Arrangement.spacedBy(8.dp)){Button(onClick={showLibrary=false}){Text("Search")};Button(onClick={library=offlineList(context);showLibrary=true}){Text("Offline library (${library.size})")}}
  if(playing.isNotBlank())Text("Playing: $playing",style=MaterialTheme.typography.titleSmall)
  if(!showLibrary){
  Row(verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(8.dp)){
