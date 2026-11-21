@@ -43,7 +43,7 @@ private fun metaFile(c:Context,s:SaavnSong)=File(storeDir(c),"${clean(s.name)}_$
 private fun artworkFile(c:Context,s:SaavnSong)=File(storeDir(c),"${clean(s.name)}_${s.id}.jpg")
 private fun songJson(s:SaavnSong)=JSONObject().put("id",s.id).put("name",s.name).put("artist",s.artist).put("album",s.album).put("duration",s.duration).put("stream",s.stream).put("image",s.image).put("download",s.download)
 private fun parseSong(o:JSONObject)=SaavnSong(o.optString("id"),o.optString("name"),o.optString("artist"),o.optString("album"),o.optString("duration"),o.optString("stream"),o.optString("image"),o.optString("download"))
-private fun offlineSongs(c:Context):List<SaavnSong> = (storeDir(c).listFiles()?.filter{it.extension=="json"}?.mapNotNull{try{parseSong(JSONObject(it.readText()))}catch(_:Exception){null}} ?: emptyList()).sortedBy{it.name}
+private fun offlineSongs(c:Context):List<SaavnSong> = (storeDir(c).listFiles()?.filter{it.extension=="json"}?.mapNotNull{try{parseSong(JSONObject(it.readText()))}catch(_:Exception){null}} ?: emptyList()).sortedBy{it.name})
 
 @Composable private fun MusicScreen(context:Context){
  var query by remember{mutableStateOf("")}
