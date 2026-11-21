@@ -64,6 +64,23 @@ private fun HayasakaApp(context: Context) {
             }
         }
     }
+    pendingDelete?.let { file ->
+        AlertDialog(
+            onDismissRequest = { pendingDelete = null },
+            title = { Text("Delete download?") },
+            text = { Text("Remove " + file.name + " from your offline library?") },
+            confirmButton = {
+                TextButton(onClick = {
+                    file.delete()
+                    files = listAudio(context)
+                    pendingDelete = null
+                }) { Text("Delete") }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingDelete = null }) { Text("Cancel") }
+            }
+        )
+    }
 }
 
 private fun musicDir(context: Context): File = File(context.getExternalFilesDir(null), "HayasakaMusic").apply { mkdirs() }
