@@ -2,8 +2,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
-    <application android:label="Hayasaka" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:usesCleartextTraffic="false">
-        <activity android:name=".MainActivity" android:exported="true">
+    <application android:label="Lazy Browser" android:theme="@android:style/Theme.Material.NoActionBar" android:usesCleartextTraffic="true">
+        <activity android:name=".HayasakaActivity" android:exported="false" />
+        <activity android:name=".LazyBrowserActivity" android:configChanges="orientation|screenSize|keyboardHidden" android:exported="true">
             <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>
         </activity>
         <service android:name=".PlaybackService" android:exported="true" android:foregroundServiceType="mediaPlayback">
