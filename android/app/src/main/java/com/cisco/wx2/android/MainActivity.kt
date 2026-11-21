@@ -32,7 +32,7 @@ class HayasakaActivity:ComponentActivity(){
 }
 private fun storeDir(c:Context)=File(c.filesDir,"offline_music").apply{mkdirs()}
 private fun clean(s:String)=s.replace(Regex("[^a-zA-Z0-9._ -]"),"_").trim().take(80).ifBlank{"track"}
-private fun audioFile(c:Context,s:SaavnSong)=File(storeDir(c),"${clean(s.name)}_${s.id}.m4a")
+private fun audioFile(c:Context,s:SaavnSong)=File(storeDir(c),"${clean(s.name)}_${s.id}.mp3")
 private fun metaFile(c:Context,s:SaavnSong)=File(storeDir(c),"${clean(s.name)}_${s.id}.json")
 private fun toJson(s:SaavnSong)=JSONObject().put("id",s.id).put("name",s.name).put("artist",s.artist).put("album",s.album).put("duration",s.duration).put("stream",s.stream).put("image",s.image).put("download",s.download)
 private fun fromJson(o:JSONObject)=SaavnSong(o.optString("id"),o.optString("name"),o.optString("artist"),o.optString("album"),o.optString("duration"),o.optString("stream"),o.optString("image"),o.optString("download"))
