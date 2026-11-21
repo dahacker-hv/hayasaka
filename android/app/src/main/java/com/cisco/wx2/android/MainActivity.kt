@@ -58,7 +58,7 @@ private fun offlineList(c:Context):List<SaavnSong> = (storeDir(c).listFiles()?.f
  }else{
  Text("Saved on device • playable without internet")
  LazyColumn(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(8.dp)){items(library,key={it.id}){song->
- SongCard(song,true,false,{}, {startPlayback(context,audioFile(context,song).absolutePath,song);playing=song.name})
+ SongCard(song,true,false,{}, {startPlayback(context,audioFile(context,song).toURI().toString(),song);playing=song.name})
  TextButton(onClick={audioFile(context,song).delete();metaFile(context,song).delete();File(storeDir(context),"${clean(song.name)}_${song.id}.jpg").delete();library=offlineList(context)}){Text("Remove download")}
  }}
  }
@@ -98,4 +98,4 @@ private object Offline{
  Handler(Looper.getMainLooper()).post{done(true,"Saved for offline playback")}
  }catch(e:Exception){audioFile(context,song).delete();Handler(Looper.getMainLooper()).post{done(false,"Download failed: ${e.message}")}}}}
 }
-private fun startPlayback(context:Context,url:String,song:SaavnSong){val artFile=File(storeDir(context),"${clean(song.name)}_${song.id}.jpg");val artwork=if(url==audioFile(context,song).absolutePath&&artFile.exists())artFile.toURI().toString()else song.image;val i=Intent(context,PlaybackService::class.java).setAction(PlaybackService.ACTION_PLAY).putExtra(PlaybackService.EXTRA_PATH,url).putExtra(PlaybackService.EXTRA_TITLE,song.name).putExtra(PlaybackService.EXTRA_ARTIST,song.artist).putExtra(PlaybackService.EXTRA_ALBUM,song.album).putExtra(PlaybackService.EXTRA_ART,artwork);ContextCompat.startForegroundService(context,i)}
+private fun startPlayback(context:Context,url:String,song:SaavnSong){val artFile=File(storeDir(context),"${clean(song.name)}_${song.id}.jpg");val artwork=if(url==audioFile(context,song).toURI().toString()&&artFile.exists())artFile.toURI().toString()else song.image;val i=Intent(context,PlaybackService::class.java).setAction(PlaybackService.ACTION_PLAY).putExtra(PlaybackService.EXTRA_PATH,url).putExtra(PlaybackService.EXTRA_TITLE,song.name).putExtra(PlaybackService.EXTRA_ARTIST,song.artist).putExtra(PlaybackService.EXTRA_ALBUM,song.album).putExtra(PlaybackService.EXTRA_ART,artwork);ContextCompat.startForegroundService(context,i)}
