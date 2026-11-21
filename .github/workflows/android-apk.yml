@@ -20,8 +20,11 @@ jobs:
       - name: Install SDK
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
       - name: Build debug APK
-        working-directory: android
-        run: gradle --no-daemon assembleDebug
+        uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: 8.10.2
+          arguments: assembleDebug
+          build-root-directory: android
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
