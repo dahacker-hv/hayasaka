@@ -63,6 +63,7 @@ private fun listAudio(context: Context): List<File> = musicDir(context).listFile
 
 private fun enqueueDownload(context: Context, raw: String) {
     try {
+        musicDir(context)
         val uri = Uri.parse(raw.trim())
         val name = uri.lastPathSegment?.takeIf { it.isNotBlank() } ?: "track.mp3"
         val request = android.app.DownloadManager.Request(uri)
