@@ -4,7 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 android {
-    namespace = "com.android.wx2.android"
+    namespace = "com.cisco.wx2.android"
     compileSdk = 35
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -14,7 +14,7 @@ android {
         jvmTarget = "17"
     }
     defaultConfig {
-        applicationId = "com.android.wx2.android"
+        applicationId = "com.cisco.wx2.android"
         minSdk = 26
         targetSdk = 35
         versionCode = 2
