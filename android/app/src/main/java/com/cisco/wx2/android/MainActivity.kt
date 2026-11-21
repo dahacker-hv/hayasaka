@@ -63,6 +63,7 @@ private fun offlineList(c:Context):List<SaavnSong> = (storeDir(c).listFiles()?.f
  }}
  }
 }
+ } // close MusicScreen
 @Composable private fun SongCard(song:SaavnSong,saved:Boolean,loading:Boolean,onDownload:()->Unit,onPlay:()->Unit){
  Card(Modifier.fillMaxWidth()){Row(Modifier.fillMaxWidth().padding(12.dp),verticalAlignment=Alignment.CenterVertically){
  Column(Modifier.weight(1f)){Text(song.name,style=MaterialTheme.typography.titleSmall);Text(song.artist,style=MaterialTheme.typography.bodySmall);if(song.album.isNotBlank())Text(song.album,style=MaterialTheme.typography.labelSmall);Text(song.duration,style=MaterialTheme.typography.labelSmall)}
@@ -91,7 +92,7 @@ private object Offline{
  val url=song.download.ifBlank{song.stream};if(url.isBlank())throw Exception("No download URL")
  val con=URL(url).openConnection();con.connectTimeout=20000;con.readTimeout=30000
  con.getInputStream().use{input->audioFile(context,song).outputStream().use{output->input.copyTo(output)}}
- if(song.image.isNotBlank())try{
+ if(song.image.isNotBlank())try{}
  URL(song.image).openStream().use{input->File(storeDir(context),"${clean(song.name)}_${song.id}.jpg").outputStream().use{output->input.copyTo(output)}}
  }catch(_:Exception){}
  metaFile(context,song).writeText(toJson(song).toString())
